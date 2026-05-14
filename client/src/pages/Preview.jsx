@@ -22,9 +22,15 @@ const Preview = () => {
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/templates/${id}`,
-        );
+        const apiUrl = import.meta.env.VITE_API_URL;
+
+        if (!apiUrl) {
+          console.error("❌ VITE_API_URL is not defined. Check your .env file");
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${apiUrl}/api/templates/${id}`);
 
         const result = await response.json();
 
